@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venkatasai Life Sciences - CDMO Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Custom Colors: Orange/Cyan for vibrancy */
+        :root {
+            --primary-navy: #0f3d61; /* Deep Navy for text/background */
+            --accent-cyan: #06b6d4; /* Bright Cyan */
+            --accent-orange: #f97316; /* Vibrant Orange */
+            --text-light: #fef3c7; /* Light Yellow/Cream */
+            --bg-light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+        }
+
+        /* Reusable Section Header Style */
+        .section-header {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .section-subtext {
+            color: var(--text-light);
+            font-size: 1.125rem;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+            color: #64748b;
+        }
+
+        /* Hero Banner Styles (from previous design) */
+        .banner-container {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .banner-background {
+            background-image: url('http://googleusercontent.com/image_collection/image_retrieval/6480507344956829460'); 
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 61, 97, 0.7); 
+            background-blend-mode: multiply;
+        }
+        
+        /* Utility for accented text */
+        .text-accent-cyan { color: var(--accent-cyan); }
+        .text-accent-orange { color: var(--accent-orange); }
+
+        /* Key Feature Grid Styles */
+        .key-feature-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            border-top: 5px solid var(--accent-cyan);
+        }
+
+        .key-feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Timeline/Process Step Styles */
+        .process-step {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            position: relative;
+        }
+        .process-icon {
+            background: var(--accent-orange);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            z-index: 10;
+        }
+        .process-line {
+            position: absolute;
+            height: 2px;
+            background: #e2e8f0;
+            top: 25px;
+            width: 100%;
+            z-index: 5;
+        }
+        .process-step:last-child .process-line {
+            display: none;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ef4444;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--accent-orange);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="w-full mx-auto">
+    <!-- Navigation (Simple Placeholder) -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <div class="text-2xl font-extrabold text-primary-navy">Venkatasai <span class="text-accent-orange">Life Sciences</span></div>
+            <div class="space-x-4">
+                <a href="#services" class="text-gray-600 hover:text-accent-cyan transition">Services</a>
+                <a href="#expertise" class="text-gray-600 hover:text-accent-cyan transition">Expertise</a>
+                <a href="#process" class="text-gray-600 hover:text-accent-cyan transition">Process</a>
+                <button class="px-4 py-2 bg-accent-orange text-white rounded-lg font-semibold hover:bg-orange-600 transition" onclick="openModal('consultationModal')">Contact CDMO</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. HERO BANNER -->
+    <div class="banner-container h-[450px] md:h-[550px] flex items-center justify-center mb-16">
+        <div class="banner-background"></div>
+        <div class="relative z-10 text-center text-white p-8">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-4 leading-tight">
+                <span class="text-accent-orange">Specialized Synthesis,</span> Accelerated Scale-Up.
+            </h1>
+            <p class="text-2xl font-medium max-w-4xl mx-auto text-accent-cyan">
+                Your trusted partner for specialized CDMO and CRO solutions, built on a decade of complex chemistry expertise.
+            </p>
+            <button class="mt-8 px-8 py-3 bg-white text-gray-900 font-bold text-lg rounded-full hover:bg-gray-200 transition duration-300 shadow-xl" onclick="openModal('consultationModal')">
+                Start Your Project Consultation
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. CORE SERVICES (KEY FEATURES) -->
+    <section id="services" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h2 class="section-header text-center">End-to-End CDMO Solutions</h2>
+        <p class="section-subtext text-center text-gray-500">
+            We provide integrated services that bridge R&D agility (CRO) with the quality and volume of commercial manufacturing (CDMO).
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="key-feature-card">
+                <div class="icon text-5xl text-accent-orange"><i class="fas fa-flask-vial"></i></div>
+                <h3 class="text-2xl font-semibold text-primary-navy mb-3">CRO & FTE Services</h3>
+                <p>Dedicated scientist support (FTE) for long-term analog synthesis and method development, or fixed-fee models (FFS) for defined deliverables. Speed and flexibility guaranteed.</p>
+                <a href="#" class="mt-4 inline-block text-sm font-semibold text-accent-cyan hover:text-primary-navy transition">Learn More about FTE <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+
+            <div class="key-feature-card" style="border-top-color: var(--accent-orange);">
+                <div class="icon text-5xl text-accent-cyan"><i class="fas fa-industry"></i></div>
+                <h3 class="text-2xl font-semibold text-primary-navy mb-3">Process Scale-Up & Manufacturing</h3>
+                <p>Seamless transition from lab bench to commercial scales (Kg to Ton). Focusing on cost-optimization, safety, and establishing robust, repeatable GMP processes.</p>
+                <a href="#" class="mt-4 inline-block text-sm font-semibold text-accent-cyan hover:text-primary-navy transition">View Manufacturing Capability <i class="fas fa-arrow-right ml-1"></i></a>
+                
+                <!-- LLM Feature 1: Route Scout -->
+                <button class="mt-4 px-4 py-2 bg-accent-orange text-white rounded-lg font-semibold hover:bg-orange-600 transition w-full text-sm flex items-center justify-center" onclick="openModal('routeScoutModal')">
+                    ✨ See Sample Synthesis Route
+                </button>
+            </div>
+
+            <div class="key-feature-card">
+                <div class="icon text-5xl text-accent-orange"><i class="fas fa-dna"></i></div>
+                <h3 class="text-2xl font-semibold text-primary-navy mb-3">Specialty API & Impurities</h3>
+                <p>Leverage our core expertise in high-purity synthesis of complex molecules: API Impurities, Stable Isotopes, Nitrosamines, and advanced intermediates for regulatory filings.</p>
+                <a href="#" class="mt-4 inline-block text-sm font-semibold text-accent-cyan hover:text-primary-navy transition">Explore Our Catalog <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. CDMO PROCESS FLOW -->
+    <section id="process" class="bg-primary-navy py-16 mb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="section-header text-center text-white">Our Disciplined Project Flow</h2>
+            <p class="section-subtext text-center text-accent-cyan max-w-3xl mx-auto">
+                A structured, transparent four-step process ensures predictable outcomes and timely delivery, every time.
+            </p>
+
+            <div class="flex justify-between relative mt-12">
+                <div class="process-line"></div>
+                
+                <div class="process-step w-1/4 px-4">
+                    <div class="process-icon"><i class="fas fa-handshake"></i></div>
+                    <h4 class="text-xl font-bold text-white mt-2">1. Engagement & Scoping</h4>
+                    <p class="text-sm text-gray-300 mt-2">CDA execution, technical discussion, and selection of the optimal model (FTE or FFS).</p>
+                </div>
+                
+                <div class="process-step w-1/4 px-4">
+                    <div class="process-icon"><i class="fas fa-route"></i></div>
+                    <h4 class="text-xl font-bold text-white mt-2">2. Process Development</h4>
+                    <p class="text-sm text-gray-300 mt-2">Route scouting, optimization, impurity profiling, and initial analytical method validation.</p>
+                </div>
+                
+                <div class="process-step w-1/4 px-4">
+                    <div class="process-icon"><i class="fas fa-flask-gear"></i></div>
+                    <h4 class="text-xl font-bold text-white mt-2">3. Scale-Up & Validation</h4>
+                    <p class="text-sm text-gray-300 mt-2">Pilot batch production, process validation, and seamless technology transfer to the plant.</p>
+                </div>
+                
+                <div class="process-step w-1/4 px-4">
+                    <div class="process-icon"><i class="fas fa-shipping-fast"></i></div>
+                    <h4 class="text-xl font-bold text-white mt-2">4. GMP Manufacturing</h4>
+                    <p class="text-sm text-gray-300 mt-2">Commercial bulk production, QC release, and secure global logistics with full documentation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. TECHNICAL EXPERTISE & QUALITY -->
+    <section id="expertise" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h2 class="section-header text-center">Technical & Regulatory Foundation</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            
+            <div class="space-y-6">
+                <h3 class="text-3xl font-bold text-primary-navy border-b-2 border-accent-orange pb-2">Unlocking Complex Chemistry</h3>
+                <p class="text-gray-700">
+                    Our foundation in complex synthesis allows us to solve chemistry challenges that generic manufacturers often avoid. We specialize in handling challenging reactions and intermediates essential for modern drug candidates.
+                </p>
+
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <i class="fas fa-vial-circle-check text-2xl text-accent-cyan mr-3 mt-1"></i>
+                        <div>
+                            <span class="font-bold text-lg text-primary-navy">Advanced Analytical Suite:</span> Full in-house testing using HNMR, HPLC, LCMS, and IR for absolute structural verification.
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-file-invoice text-2xl text-accent-cyan mr-3 mt-1"></i>
+                        <div>
+                            <span class="font-bold text-lg text-primary-navy">Regulatory Compliance:</span> Strict adherence to ICH Q7 GMP guidelines, providing robust documentation (DMF, IMPD) for global regulatory submissions.
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-temperature-three-quarters text-2xl text-accent-cyan mr-3 mt-1"></i>
+                        <div>
+                            <span class="font-bold text-lg text-primary-navy">Flexible Reaction Conditions:</span> Capability to handle high-pressure, cryogenic, and complex multi-step reactions efficiently.
+                        </div>
+                        
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Placeholder for visual proof of expertise -->
+            <div class="bg-gray-100 p-8 rounded-lg shadow-inner text-center">
+                <h4 class="text-xl font-bold text-accent-orange mb-4">Manufacturing Capacity Overview</h4>
+                <p class="text-3xl font-extrabold text-primary-navy">
+                    Kilo-Lab to Multi-Ton Scale
+                </p>
+                <p class="text-gray-500 mt-2">
+                    Reactors from 50L to 2,000L. Dedicated infrastructure for segregated synthesis.
+                </p>
+                <!-- LLM Feature 2: Regulatory Assistant Button -->
+                <button class="mt-6 px-6 py-2 bg-accent-cyan text-white font-bold rounded-lg hover:bg-cyan-600 transition text-sm" onclick="openModal('regulatoryQueryModal')">
+                    ✨ Ask a Regulatory Question
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. FINAL CTA SECTION -->
+    <section class="bg-primary-navy py-16 mt-16">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4">
+                Ready to Accelerate Your Molecule?
+            </h2>
+            <p class="text-xl text-accent-cyan mb-8">
+                Connect with our BD team today for a confidential review of your project's synthesis and manufacturing needs.
+            </p>
+            <button class="px-8 py-4 bg-accent-orange text-white font-bold text-xl rounded-full hover:bg-orange-600 transition duration-300 shadow-2xl" onclick="openModal('consultationModal')">
+                Request a Confidential Consultation
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+            &copy; 2025 Venkatasai Life Sciences Pvt Ltd. | CDMO and Specialty Chemical Solutions
+        </div>
+    </footer>
+
+</div>
+
+<!-- MODALS -->
+
+<!-- Modal 1: Route Scout (Synthesis Sample) -->
+<div id="routeScoutModal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('routeScoutModal')">&times;</span>
+        <h3 class="text-2xl font-bold text-primary-navy mb-4">✨ Instant Route Scout</h3>
+        <p class="text-gray-600 mb-4">See a high-level, sample synthetic approach for a complex molecule, demonstrating our technical expertise.</p>
+        <div class="flex items-center space-x-4 mb-4">
+            <input type="text" id="moleculeInput" placeholder="e.g., S-Amlodipine Intermediate" class="flex-grow p-2 border border-gray-300 rounded-lg">
+            <button id="routeScoutButton" class="px-4 py-2 bg-accent-orange text-white rounded-lg font-semibold hover:bg-orange-600 transition">Suggest Route</button>
+        </div>
+        <div id="routeScoutLoader" class="loader mx-auto my-4"></div>
+        <div id="routeScoutResult" class="p-4 bg-gray-50 border border-gray-200 rounded-lg max-h-60 overflow-y-auto text-sm text-gray-700 whitespace-pre-wrap">
+            The suggested high-level synthesis route will appear here.
+        </div>
+    </div>
+</div>
+
+<!-- Modal 2: Regulatory Query Assistant -->
+<div id="regulatoryQueryModal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('regulatoryQueryModal')">&times;</span>
+        <h3 class="text-2xl font-bold text-primary-navy mb-4">✨ Regulatory Query Assistant</h3>
+        <p class="text-gray-600 mb-4">Ask high-level questions about ICH guidelines, DMF filing, or compliance, grounded with Google Search.</p>
+        <textarea id="regQueryInput" placeholder="e.g., What are the current regulatory expectations for Nitrosamine control?" class="w-full p-2 border border-gray-300 rounded-lg h-24 mb-4"></textarea>
+        <button id="regQueryButton" class="px-4 py-2 bg-accent-cyan text-white rounded-lg font-semibold hover:bg-cyan-600 transition w-full">Get Grounded Answer</button>
+        <div id="regQueryLoader" class="loader mx-auto my-4"></div>
+        <div id="regQueryResult" class="p-4 mt-4 bg-gray-50 border border-gray-200 rounded-lg max-h-60 overflow-y-auto text-sm text-gray-700 whitespace-pre-wrap">
+            The regulatory answer (with sources) will appear here.
+        </div>
+    </div>
+</div>
+
+<!-- Modal 3: General Consultation (Placeholder for CTA) -->
+<div id="consultationModal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('consultationModal')">&times;</span>
+        <h3 class="text-2xl font-bold text-primary-navy mb-4">Request a Consultation</h3>
+        <p class="text-gray-600 mb-4">Please contact us directly for a confidential project review.</p>
+        <p class="text-lg font-semibold text-primary-navy">Email: contact@venkatasailifesciences.com</p>
+    </div>
+</div>
